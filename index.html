@@ -51,6 +51,11 @@
     gap: 8px;
     margin: 8px 4px 16px;
   }
+  .head-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
   h1 {
     font-size: 20px;
     font-weight: 700;
@@ -283,8 +288,11 @@
 <body>
 
 <div class="page-head">
-  <h1>집밥 레시피 아이디어</h1>
-  <button class="add-btn" id="add-btn">＋ 레시피 추가</button>
+  <h1 id="title">집밥 레시피 아이디어</h1>
+  <div class="head-actions">
+    <button class="add-btn" id="lang-btn" aria-label="Switch language">EN</button>
+    <button class="add-btn" id="add-btn">＋ 레시피 추가</button>
+  </div>
 </div>
 
 <input type="search" id="search" class="search" placeholder="레시피 검색 (예: 두부, 김밥, 파스타)">
@@ -299,16 +307,16 @@
   <div class="sheet" role="dialog" aria-labelledby="sheet-title">
     <h2 id="sheet-title">새 레시피 추가</h2>
 
-    <label for="f-name">레시피 이름</label>
+    <label for="f-name" id="l-name">레시피 이름</label>
     <input id="f-name" type="text" placeholder="예: 두부크림파스타">
 
-    <label for="f-link">링크</label>
+    <label for="f-link" id="l-link">링크</label>
     <input id="f-link" type="url" placeholder="https:// 링크 붙여넣기">
 
-    <label for="f-memo">메모 (선택)</label>
+    <label for="f-memo" id="l-memo">메모 (선택)</label>
     <textarea id="f-memo" placeholder="예: 와인은 없으면 제외"></textarea>
 
-    <label for="f-cat">카테고리</label>
+    <label for="f-cat" id="l-cat">카테고리</label>
     <select id="f-cat"></select>
 
     <p class="err" id="f-err">이름과 링크를 입력해 주세요.</p>
@@ -332,97 +340,97 @@ const CATEGORIES = [
 
 const RECIPES = [
   // Chicken
-  { name: "버섯치킨리조또 (닭다리살)", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DYeS27YTBzN/?igsh=cDhoc3hyNzJ0M3ll" }] },
-  { name: "로제버터치킨 카레", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DZYmIGmzc5X/?igsh=MXZ4Ym8xeW1lM3lobw==" }] },
-  { name: "어남선생 간장치킨", category: "chicken", links: [
+  { name: "버섯치킨리조또 (닭다리살)", nameEn: "Mushroom Chicken Risotto (chicken thigh)", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DYeS27YTBzN/?igsh=cDhoc3hyNzJ0M3ll" }] },
+  { name: "로제버터치킨 카레", nameEn: "Rosé Butter Chicken Curry", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DZYmIGmzc5X/?igsh=MXZ4Ym8xeW1lM3lobw==" }] },
+  { name: "어남선생 간장치킨", nameEn: "Chef Eonam's Soy Sauce Chicken", category: "chicken", links: [
     { label: "YouTube", url: "https://youtu.be/kdhAx2GrZcQ?si=9hCSamkKdOLAWdaz" },
-    { label: "매움버전", url: "https://youtube.com/shorts/yymaD70_s8o?si=nD2t8jLQfiS2SiVF" }
+    { label: "매움버전", labelEn: "Spicy ver.", url: "https://youtube.com/shorts/yymaD70_s8o?si=nD2t8jLQfiS2SiVF" }
   ] },
-  { name: "초간단찜닭", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVc-CAbEhe3/?igsh=bzJmd3BsZHl0Ymxu" }] },
-  { name: "또다른 대파닭구이", category: "chicken", links: [{ label: "YouTube", url: "https://youtube.com/shorts/FR-F48seQv8?si=jfVoMv2Jeg0wMZWW" }] },
-  { name: "로제찜닭", category: "chicken", links: [{ label: "YouTube", url: "https://youtu.be/rEx6BBg5p2M?si=n75HRys4nL0hLXP2" }] },
-  { name: "다진닭가슴살 피자", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reels/DU05ObKCRhk/" }] },
-  { name: "치즈스틱치킨", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVuCb7tlRx1/?igsh=YnZhN2Z4dWZ2MDFr" }] },
-  { name: "닭다리살 멸치국수", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVLJf32EQ-2/?igsh=MTN0OHk4am93Y2dxNw==" }] },
-  { name: "닭가슴살로제", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUkaCqGEWoP/?igsh=dXZ5czI2YmhmN3g0" }] },
-  { name: "계란간단떡볶이", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DWIj53qAdtZ/?igsh=MTIzdjhtaTZvaDRjOA==" }] },
+  { name: "초간단찜닭", nameEn: "Super Easy Jjimdak (braised chicken)", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVc-CAbEhe3/?igsh=bzJmd3BsZHl0Ymxu" }] },
+  { name: "또다른 대파닭구이", nameEn: "Green Onion Grilled Chicken (another ver.)", category: "chicken", links: [{ label: "YouTube", url: "https://youtube.com/shorts/FR-F48seQv8?si=jfVoMv2Jeg0wMZWW" }] },
+  { name: "로제찜닭", nameEn: "Rosé Jjimdak", category: "chicken", links: [{ label: "YouTube", url: "https://youtu.be/rEx6BBg5p2M?si=n75HRys4nL0hLXP2" }] },
+  { name: "다진닭가슴살 피자", nameEn: "Minced Chicken Breast Pizza", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reels/DU05ObKCRhk/" }] },
+  { name: "치즈스틱치킨", nameEn: "Cheese Stick Chicken", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVuCb7tlRx1/?igsh=YnZhN2Z4dWZ2MDFr" }] },
+  { name: "닭다리살 멸치국수", nameEn: "Chicken Thigh Anchovy Noodle Soup", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVLJf32EQ-2/?igsh=MTN0OHk4am93Y2dxNw==" }] },
+  { name: "닭가슴살로제", nameEn: "Chicken Breast Rosé", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUkaCqGEWoP/?igsh=dXZ5czI2YmhmN3g0" }] },
+  { name: "계란간단떡볶이", nameEn: "Easy Egg Tteokbokki", category: "chicken", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DWIj53qAdtZ/?igsh=MTIzdjhtaTZvaDRjOA==" }] },
 
   // Veggies & Tofu
-  { name: "부침가루 옥수수전", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/L8eR756GKHQ?si=JhTEu1AQkcfKESSU" }] },
-  { name: "버섯크림리조또", category: "veggie", links: [{ label: "YouTube", url: "https://youtu.be/CAUWCRZw34A?si=FOGvMHjFBQx46Mk-" }], note: "영상 앞부분에 있음. 와인은 없으면 제외. 생쌀 활용" },
-  { name: "두부크림파스타 (저칼로리)", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DYZkypuKfN4/?igsh=dWhnbTc5N3B0NWZl" }] },
-  { name: "두부조림 (볶음X)", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/dT4K2mj7GaE?si=g0OnpegtC9maquRd" }] },
-  { name: "두부 팽이버섯 간장구이", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/b_TuKxHsJu4?si=ZMVCtfXOzqvk1f6T" }] },
-  { name: "당면찌개", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/4_BKdYF7AYU?si=bxJ-yWJcntU7LnoO" }], note: "원본엔 고기 없음" },
-  { name: "라면 면없이 두부탕 (최강록 셰프)", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DW-GXo3EwX-/?igsh=cWtrbnhkZHI4YWhk" }] },
-  { name: "감자 새알심국", category: "veggie", links: [{ label: "Blog", url: "https://m.blog.naver.com/ehdrmsdldhk/224096543620" }] },
-  { name: "버섯밥 (냄비)", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/jCUj7ZdsGOE?si=N97r6r3ZUtOBrTTp" }] },
-  { name: "참치두부 배추롤", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/p/Cy3EY4fvtIQ/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" }] },
-  { name: "두부콩나물찜", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/oh8EsDXNszE?si=rMz957-PLwdF5TvG" }], note: "고기 빼고, 양배추로" },
-  { name: "감자떡 부침", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/VtqZrDfEwiM?si=ky3rH1xzjJqaw1cN" }] },
-  { name: "간계밥 김밥", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DT98NgJAXMb/?igsh=ODRuejQxdTE1OGdy" }] },
-  { name: "샐러리솔티걸스낵", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/ms72lxZ6o44?si=L6-CgnV92pwkM_bO" }] },
-  { name: "파스타떡볶이", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DWq4_BWjOF9/?igsh=ZWZpMmhmcDg0bWMx" }] },
+  { name: "부침가루 옥수수전", nameEn: "Corn Pancake (pancake mix)", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/L8eR756GKHQ?si=JhTEu1AQkcfKESSU" }] },
+  { name: "버섯크림리조또", nameEn: "Mushroom Cream Risotto", category: "veggie", links: [{ label: "YouTube", url: "https://youtu.be/CAUWCRZw34A?si=FOGvMHjFBQx46Mk-" }], note: "영상 앞부분에 있음. 와인은 없으면 제외. 생쌀 활용", noteEn: "In the first part of the video. Skip wine if unavailable. Uses raw rice" },
+  { name: "두부크림파스타 (저칼로리)", nameEn: "Tofu Cream Pasta (low-calorie)", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DYZkypuKfN4/?igsh=dWhnbTc5N3B0NWZl" }] },
+  { name: "두부조림 (볶음X)", nameEn: "Braised Tofu (not stir-fried)", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/dT4K2mj7GaE?si=g0OnpegtC9maquRd" }] },
+  { name: "두부 팽이버섯 간장구이", nameEn: "Tofu & Enoki Mushrooms in Soy Glaze", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/b_TuKxHsJu4?si=ZMVCtfXOzqvk1f6T" }] },
+  { name: "당면찌개", nameEn: "Glass Noodle Stew", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/4_BKdYF7AYU?si=bxJ-yWJcntU7LnoO" }], note: "원본엔 고기 없음", noteEn: "No meat in the original" },
+  { name: "라면 면없이 두부탕 (최강록 셰프)", nameEn: "Noodle-less Ramyeon Tofu Soup (Chef Choi Kang-rok)", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DW-GXo3EwX-/?igsh=cWtrbnhkZHI4YWhk" }] },
+  { name: "감자 새알심국", nameEn: "Potato Soup with Rice Dumplings", category: "veggie", links: [{ label: "Blog", url: "https://m.blog.naver.com/ehdrmsdldhk/224096543620" }] },
+  { name: "버섯밥 (냄비)", nameEn: "Mushroom Rice (pot)", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/jCUj7ZdsGOE?si=N97r6r3ZUtOBrTTp" }] },
+  { name: "참치두부 배추롤", nameEn: "Tuna Tofu Cabbage Rolls", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/p/Cy3EY4fvtIQ/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" }] },
+  { name: "두부콩나물찜", nameEn: "Steamed Tofu & Bean Sprouts", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/oh8EsDXNszE?si=rMz957-PLwdF5TvG" }], note: "고기 빼고, 양배추로", noteEn: "Skip the meat, use cabbage" },
+  { name: "감자떡 부침", nameEn: "Pan-fried Potato Rice Cakes", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/VtqZrDfEwiM?si=ky3rH1xzjJqaw1cN" }] },
+  { name: "간계밥 김밥", nameEn: "Soy Sauce Egg Rice Gimbap", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DT98NgJAXMb/?igsh=ODRuejQxdTE1OGdy" }] },
+  { name: "샐러리솔티걸스낵", nameEn: "Salty Celery Snack", category: "veggie", links: [{ label: "YouTube", url: "https://youtube.com/shorts/ms72lxZ6o44?si=L6-CgnV92pwkM_bO" }] },
+  { name: "파스타떡볶이", nameEn: "Pasta Tteokbokki", category: "veggie", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DWq4_BWjOF9/?igsh=ZWZpMmhmcDg0bWMx" }] },
 
   // Pork & Beef
-  { name: "만두밥 (돼지고기 만두)", category: "pork", links: [{ label: "YouTube", url: "https://youtu.be/AW6mq5K5X4A?si=IENYmb603R_eYHK8" }] },
-  { name: "7분 돼지김치찌개", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DV8AgHjk7BC/?igsh=YzRoeWJvenRldTJu" }] },
-  { name: "배추삼겹찜", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DYojPbJzTV6/?igsh=MWlkM2Y4ZXhnNzBu" }] },
-  { name: "애호박찌개", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DXRVnd3GdCv/?igsh=ZXo0bHdmdWRtbXNz" }] },
-  { name: "김치찜", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DW8ZOt7ge8z/?igsh=cWxsem4wNDlicWVj" }] },
-  { name: "원팬함박스테이크", category: "pork", links: [{ label: "X", url: "https://x.com/akari_hasegawa/status/1613892330855223296?s=46" }] },
-  { name: "라이스페이퍼로 만드는 만두 (또는 전)", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/I1kxPh69ccQ?si=x4CbJhHMjU29E7kw" }] },
-  { name: "김치항정파스타", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVI5iPUgczN/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
-  { name: "스팸감자전", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/7G4mRS6Mct8?si=_xok8Bt7Qn6jpLgU" }] },
-  { name: "샤브샤브 감자탕", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/6E7Uaj6JBvU?si=5BOey9wluCva_6Wt" }] },
-  { name: "간편우삼겹감자탕", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUh887KAUuv/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
-  { name: "라이스페이퍼 소떡소떡", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/Xt_EauvyNH0?si=KMwn4VuBPPDNocVZ" }] },
-  { name: "스팸땡초김밥", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DSR2bEugbiG/?igsh=MTRmZjV1eWFwcGh1OA==" }] },
-  { name: "간단제육볶음", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DT7HvPLEvDb/?igsh=MWplZnkwbXhzejRmYQ==" }] },
-  { name: "간편부타동", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUqD2w-EsGi/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
-  { name: "간편수육", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTfFZxdAe8-/?igsh=MTM1bzV0NjY0N3dxeA==" }] },
-  { name: "순두부 김치찌개", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTM39uvEu0K/?igsh=bThsZGE0YjhjOWU=" }] },
-  { name: "된장목살스테이크", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTH0o7kEgXp/?igsh=MW5pbGpsNTNtejVyYg==" }] },
-  { name: "프로틴 퀘사딜라 (다진 소고기)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DXBnxtpj5qL/?igsh=MTJwYmN5aGZ1NzI4bA==" }] },
+  { name: "만두밥 (돼지고기 만두)", nameEn: "Dumpling Rice (pork dumplings)", category: "pork", links: [{ label: "YouTube", url: "https://youtu.be/AW6mq5K5X4A?si=IENYmb603R_eYHK8" }] },
+  { name: "7분 돼지김치찌개", nameEn: "7-Minute Pork Kimchi Stew", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DV8AgHjk7BC/?igsh=YzRoeWJvenRldTJu" }] },
+  { name: "배추삼겹찜", nameEn: "Steamed Pork Belly & Cabbage", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DYojPbJzTV6/?igsh=MWlkM2Y4ZXhnNzBu" }] },
+  { name: "애호박찌개", nameEn: "Zucchini Stew", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DXRVnd3GdCv/?igsh=ZXo0bHdmdWRtbXNz" }] },
+  { name: "김치찜", nameEn: "Braised Kimchi (kimchi-jjim)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DW8ZOt7ge8z/?igsh=cWxsem4wNDlicWVj" }] },
+  { name: "원팬함박스테이크", nameEn: "One-Pan Hamburg Steak", category: "pork", links: [{ label: "X", url: "https://x.com/akari_hasegawa/status/1613892330855223296?s=46" }] },
+  { name: "라이스페이퍼로 만드는 만두 (또는 전)", nameEn: "Rice Paper Dumplings (or pancakes)", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/I1kxPh69ccQ?si=x4CbJhHMjU29E7kw" }] },
+  { name: "김치항정파스타", nameEn: "Kimchi Pork Jowl Pasta", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVI5iPUgczN/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
+  { name: "스팸감자전", nameEn: "Spam Potato Pancake", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/7G4mRS6Mct8?si=_xok8Bt7Qn6jpLgU" }] },
+  { name: "샤브샤브 감자탕", nameEn: "Shabu-Shabu Gamjatang (pork bone soup)", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/6E7Uaj6JBvU?si=5BOey9wluCva_6Wt" }] },
+  { name: "간편우삼겹감자탕", nameEn: "Easy Beef Brisket Gamjatang", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUh887KAUuv/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
+  { name: "라이스페이퍼 소떡소떡", nameEn: "Rice Paper Sotteok-Sotteok (sausage & rice cake skewers)", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/Xt_EauvyNH0?si=KMwn4VuBPPDNocVZ" }] },
+  { name: "스팸땡초김밥", nameEn: "Spam & Chili Gimbap", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DSR2bEugbiG/?igsh=MTRmZjV1eWFwcGh1OA==" }] },
+  { name: "간단제육볶음", nameEn: "Easy Jeyuk Bokkeum (spicy pork stir-fry)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DT7HvPLEvDb/?igsh=MWplZnkwbXhzejRmYQ==" }] },
+  { name: "간편부타동", nameEn: "Easy Butadon (pork rice bowl)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUqD2w-EsGi/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
+  { name: "간편수육", nameEn: "Easy Suyuk (boiled pork)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTfFZxdAe8-/?igsh=MTM1bzV0NjY0N3dxeA==" }] },
+  { name: "순두부 김치찌개", nameEn: "Soft Tofu Kimchi Stew", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTM39uvEu0K/?igsh=bThsZGE0YjhjOWU=" }] },
+  { name: "된장목살스테이크", nameEn: "Doenjang Pork Neck Steak", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTH0o7kEgXp/?igsh=MW5pbGpsNTNtejVyYg==" }] },
+  { name: "프로틴 퀘사딜라 (다진 소고기)", nameEn: "Protein Quesadilla (ground beef)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DXBnxtpj5qL/?igsh=MTJwYmN5aGZ1NzI4bA==" }] },
 
   // Seafood
-  { name: "양배추참치덮밥", category: "seafood", links: [{ label: "Blog", url: "https://blog.naver.com/ehdrmsdldhk/224078510996" }] },
-  { name: "신전치즈김밥 (참치캔)", category: "seafood", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTpObunEu74/?igsh=ZjJxdHRuMzh0enhx" }] },
-  { name: "묵은지땡초참치김밥", category: "seafood", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUVTrF0En33/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
-  { name: "연어마요샐러드", category: "seafood", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVvwWiOjFV3/?igsh=aXdudml6cmd3czIx" }] },
+  { name: "양배추참치덮밥", nameEn: "Cabbage Tuna Rice Bowl", category: "seafood", links: [{ label: "Blog", url: "https://blog.naver.com/ehdrmsdldhk/224078510996" }] },
+  { name: "신전치즈김밥 (참치캔)", nameEn: "Sinjeon-style Cheese Gimbap (canned tuna)", category: "seafood", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTpObunEu74/?igsh=ZjJxdHRuMzh0enhx" }] },
+  { name: "묵은지땡초참치김밥", nameEn: "Aged Kimchi & Chili Tuna Gimbap", category: "seafood", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUVTrF0En33/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
+  { name: "연어마요샐러드", nameEn: "Salmon Mayo Salad", category: "seafood", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVvwWiOjFV3/?igsh=aXdudml6cmd3czIx" }] },
 
   // Noodle & Pasta
-  { name: "원팬후추치즈파스타", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/wCb2dVdgQIE?si=6oCSjfn4FWQwFttx" }] },
-  { name: "야끼우동", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/5U411RlFrr4?si=Uj-40zZllSvPEcT-" }] },
-  { name: "콩나물매콤잡채", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/dWfGw1ILHC8?si=HPw_tTn2A__TQnu1" }] },
-  { name: "마장소스맛 땅버 비빔면", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/6uccD5gct3o?si=CqersAPT-IMugJl9" }] },
-  { name: "고추기름납작당면", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/OZSaMRALqGw?si=GgaPYUGVh8jaHxqu" }] },
-  { name: "간장국수", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/bI0ceoR9TtQ?si=hpQkRKB4S8qJkqj9" }] },
-  { name: "버섯 리조또", category: "noodle", links: [{ label: "Blog", url: "https://blog.naver.com/ehdrmsdldhk/224109245117" }], note: "연어 구이 있긴한데 안해도 될 듯함" },
-  { name: "참치원팬파스타", category: "noodle", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUXoT8Skdkh/?igsh=Y3Y4ejBxY2JncXdr" }] },
-  { name: "멸치칼국수로 등촌칼국수", category: "noodle", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DU44pSkiUtQ/?igsh=MXVuam5yNHM0ZXJrZA==" }] },
-  { name: "레몬버터파스타", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/V3y8_rR0yOY?si=3vp_pwd_1OZEbkS7" }] },
-  { name: "매콤칼칼우삼겹우동면", category: "noodle", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVtH2dZADjU/?igsh=MnMwNXBqOHc2bXV3" }] },
-  { name: "냉이된장라면", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/Ir4wGaWPZMY?si=LjjjoGBuKAfkS9di" }] },
+  { name: "원팬후추치즈파스타", nameEn: "One-Pan Pepper Cheese Pasta", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/wCb2dVdgQIE?si=6oCSjfn4FWQwFttx" }] },
+  { name: "야끼우동", nameEn: "Yaki Udon", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/5U411RlFrr4?si=Uj-40zZllSvPEcT-" }] },
+  { name: "콩나물매콤잡채", nameEn: "Spicy Bean Sprout Japchae", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/dWfGw1ILHC8?si=HPw_tTn2A__TQnu1" }] },
+  { name: "마장소스맛 땅버 비빔면", nameEn: "Peanut Butter Bibim Noodles (majang-sauce style)", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/6uccD5gct3o?si=CqersAPT-IMugJl9" }] },
+  { name: "고추기름납작당면", nameEn: "Chili Oil Flat Glass Noodles", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/OZSaMRALqGw?si=GgaPYUGVh8jaHxqu" }] },
+  { name: "간장국수", nameEn: "Soy Sauce Noodles", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/bI0ceoR9TtQ?si=hpQkRKB4S8qJkqj9" }] },
+  { name: "버섯 리조또", nameEn: "Mushroom Risotto", category: "noodle", links: [{ label: "Blog", url: "https://blog.naver.com/ehdrmsdldhk/224109245117" }], note: "연어 구이 있긴한데 안해도 될 듯함", noteEn: "Includes grilled salmon but probably fine to skip" },
+  { name: "참치원팬파스타", nameEn: "One-Pan Tuna Pasta", category: "noodle", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUXoT8Skdkh/?igsh=Y3Y4ejBxY2JncXdr" }] },
+  { name: "멸치칼국수로 등촌칼국수", nameEn: "Deungchon-style Kalguksu (anchovy noodle soup)", category: "noodle", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DU44pSkiUtQ/?igsh=MXVuam5yNHM0ZXJrZA==" }] },
+  { name: "레몬버터파스타", nameEn: "Lemon Butter Pasta", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/V3y8_rR0yOY?si=3vp_pwd_1OZEbkS7" }] },
+  { name: "매콤칼칼우삼겹우동면", nameEn: "Spicy Beef Udon", category: "noodle", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVtH2dZADjU/?igsh=MnMwNXBqOHc2bXV3" }] },
+  { name: "냉이된장라면", nameEn: "Shepherd's Purse Doenjang Ramyeon", category: "noodle", links: [{ label: "YouTube", url: "https://youtube.com/shorts/Ir4wGaWPZMY?si=LjjjoGBuKAfkS9di" }] },
 
   // Bread & Sandwiches
-  { name: "치즈 핫도그빵", category: "bread", links: [{ label: "YouTube", url: "https://youtube.com/shorts/9nQgk_Lyl_k?si=nLU-itL0olVj6H2g" }] },
-  { name: "바나나브라우니", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DV1hqGCEvZR/?igsh=MXkwZ2d0NDVsb3M3bg==" }] },
-  { name: "식빵계란롤", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DW8dl42DENG/?igsh=MWUxZnZ4Mmx0anFheg==" }] },
-  { name: "크림머쉬룸샌드위치", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUqPrtZErRv/?igsh=MWZra3h5cTAxZzI3cQ==" }] },
-  { name: "식빵돌돌말아먹기", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DW8dl42DENG/?igsh=MWUxZnZ4Mmx0anFheg==" }] },
-  { name: "부리또 싸는 법 (후라이팬)", category: "bread", links: [{ label: "YouTube", url: "https://youtube.com/shorts/0aGJX_f2zYA?si=ob1kyVbeYj46OI40" }] },
-  { name: "스테이크부리또", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DRH-aJfEeTI/?igsh=MTgybjMydHZ6MjJ4Zg==" }] },
-  { name: "모닝롤로 소금빵", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DSKd5kMkS57/?igsh=dWM5ZDZsaW5xaDBk" }] },
-  { name: "간단부라타치즈샌드위치", category: "bread", links: [
+  { name: "치즈 핫도그빵", nameEn: "Cheese Hot Dog Buns", category: "bread", links: [{ label: "YouTube", url: "https://youtube.com/shorts/9nQgk_Lyl_k?si=nLU-itL0olVj6H2g" }] },
+  { name: "바나나브라우니", nameEn: "Banana Brownies", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DV1hqGCEvZR/?igsh=MXkwZ2d0NDVsb3M3bg==" }] },
+  { name: "식빵계란롤", nameEn: "Egg Toast Roll", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DW8dl42DENG/?igsh=MWUxZnZ4Mmx0anFheg==" }] },
+  { name: "크림머쉬룸샌드위치", nameEn: "Creamy Mushroom Sandwich", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUqPrtZErRv/?igsh=MWZra3h5cTAxZzI3cQ==" }] },
+  { name: "식빵돌돌말아먹기", nameEn: "Rolled Bread Bites", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DW8dl42DENG/?igsh=MWUxZnZ4Mmx0anFheg==" }] },
+  { name: "부리또 싸는 법 (후라이팬)", nameEn: "How to Wrap a Burrito (frying pan)", category: "bread", links: [{ label: "YouTube", url: "https://youtube.com/shorts/0aGJX_f2zYA?si=ob1kyVbeYj46OI40" }] },
+  { name: "스테이크부리또", nameEn: "Steak Burrito", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DRH-aJfEeTI/?igsh=MTgybjMydHZ6MjJ4Zg==" }] },
+  { name: "모닝롤로 소금빵", nameEn: "Salt Bread from Morning Rolls", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DSKd5kMkS57/?igsh=dWM5ZDZsaW5xaDBk" }] },
+  { name: "간단부라타치즈샌드위치", nameEn: "Easy Burrata Cheese Sandwich", category: "bread", links: [
     { label: "Instagram", url: "https://www.instagram.com/reel/DUWhw2WEmwC/?igsh=MWY4dTJpMHVpbjdpaw==" },
-    { label: "햄 버전", url: "https://www.instagram.com/reel/DV0cOkDk-Mz/?igsh=MWNja3N6cXB4bXN4ag==" }
+    { label: "햄 버전", labelEn: "Ham ver.", url: "https://www.instagram.com/reel/DV0cOkDk-Mz/?igsh=MWNja3N6cXB4bXN4ag==" }
   ] },
-  { name: "베이글샌드위치 (계란, 페타 치즈)", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTJDC4iAOjf/?igsh=OG11OWtldTQ4aWtj" }] },
-  { name: "바나나노밀가루", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTP4fNPiT8O/?igsh=MXNzbW94NTBndzJlMA==" }] },
-  { name: "바나나요거트초코파운드케이크", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUQ2dv9jOhg/?igsh=MWd1cWc5Y3R4cGt0bA==" }] },
-  { name: "간단치즈케이크", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DU4Hff6CBSI/?igsh=MXRiMWlkemYzbWMwNw==" }] },
-  { name: "토마토 치즈 샌드위치", category: "bread", links: [{ label: "YouTube", url: "https://youtube.com/shorts/rsID5whbiyY?si=AdDEFDmQyjJTlrBz" }], note: "치즈만 뿌려서 먼저 빵 굽기" },
+  { name: "베이글샌드위치 (계란, 페타 치즈)", nameEn: "Bagel Sandwich (egg, feta cheese)", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTJDC4iAOjf/?igsh=OG11OWtldTQ4aWtj" }] },
+  { name: "바나나노밀가루", nameEn: "Flourless Banana Bake", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTP4fNPiT8O/?igsh=MXNzbW94NTBndzJlMA==" }] },
+  { name: "바나나요거트초코파운드케이크", nameEn: "Banana Yogurt Chocolate Pound Cake", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUQ2dv9jOhg/?igsh=MWd1cWc5Y3R4cGt0bA==" }] },
+  { name: "간단치즈케이크", nameEn: "Easy Cheesecake", category: "bread", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DU4Hff6CBSI/?igsh=MXRiMWlkemYzbWMwNw==" }] },
+  { name: "토마토 치즈 샌드위치", nameEn: "Tomato Cheese Sandwich", category: "bread", links: [{ label: "YouTube", url: "https://youtube.com/shorts/rsID5whbiyY?si=AdDEFDmQyjJTlrBz" }], note: "치즈만 뿌려서 먼저 빵 굽기", noteEn: "Sprinkle cheese on the bread and toast it first" },
 ];
 
 const STORE_KEY = "recipe-board-custom";
@@ -444,8 +452,68 @@ function linkLabel(url) {
   return "Link";
 }
 
-const state = { activeCat: "chicken", query: "" };
+/* --- i18n --- */
+const I18N = {
+  ko: {
+    title: "집밥 레시피 아이디어",
+    addBtn: "＋ 레시피 추가",
+    langBtn: "EN",
+    searchPh: "레시피 검색 (예: 두부, 김밥, 파스타)",
+    memoPrefix: "메모: ",
+    sheetTitle: "새 레시피 추가",
+    lblName: "레시피 이름", phName: "예: 두부크림파스타",
+    lblLink: "링크", phLink: "https:// 링크 붙여넣기",
+    lblMemo: "메모 (선택)", phMemo: "예: 와인은 없으면 제외",
+    lblCat: "카테고리",
+    cancel: "취소", save: "저장",
+    errRequired: "이름과 링크를 입력해 주세요.",
+    errUrl: "링크는 http:// 또는 https:// 로 시작해야 해요.",
+    count: (q, n) => "\"" + q + "\" 검색 결과 " + n + "개",
+  },
+  en: {
+    title: "Home Cooking Recipe Ideas",
+    addBtn: "＋ Add Recipe",
+    langBtn: "한국어",
+    searchPh: "Search recipes (e.g. tofu, gimbap, pasta)",
+    memoPrefix: "Note: ",
+    sheetTitle: "Add a New Recipe",
+    lblName: "Recipe name", phName: "e.g. Tofu Cream Pasta",
+    lblLink: "Link", phLink: "Paste an https:// link",
+    lblMemo: "Note (optional)", phMemo: "e.g. skip wine if unavailable",
+    lblCat: "Category",
+    cancel: "Cancel", save: "Save",
+    errRequired: "Please enter a name and a link.",
+    errUrl: "The link must start with http:// or https://.",
+    count: (q, n) => n + " result" + (n === 1 ? "" : "s") + " for \"" + q + "\"",
+  },
+};
+
+const LANG_KEY = "recipe-board-lang";
+const state = { activeCat: "chicken", query: "", lang: localStorage.getItem(LANG_KEY) || "ko" };
+const t = () => I18N[state.lang];
+const rName = r => (state.lang === "en" && r.nameEn) ? r.nameEn : r.name;
+const rNote = r => (state.lang === "en" && r.noteEn) ? r.noteEn : r.note;
+const lLabel = l => (state.lang === "en" && l.labelEn) ? l.labelEn : l.label;
 const catLabel = id => CATEGORIES.find(c => c.id === id).label;
+
+function applyLang() {
+  document.documentElement.lang = state.lang;
+  document.title = t().title;
+  document.getElementById("title").textContent = t().title;
+  document.getElementById("add-btn").textContent = t().addBtn;
+  document.getElementById("lang-btn").textContent = t().langBtn;
+  document.getElementById("search").placeholder = t().searchPh;
+  document.getElementById("sheet-title").textContent = t().sheetTitle;
+  document.getElementById("l-name").textContent = t().lblName;
+  document.getElementById("f-name").placeholder = t().phName;
+  document.getElementById("l-link").textContent = t().lblLink;
+  document.getElementById("f-link").placeholder = t().phLink;
+  document.getElementById("l-memo").textContent = t().lblMemo;
+  document.getElementById("f-memo").placeholder = t().phMemo;
+  document.getElementById("l-cat").textContent = t().lblCat;
+  document.getElementById("f-cancel").textContent = t().cancel;
+  document.getElementById("f-save").textContent = t().save;
+}
 
 function makeCard(r) {
   const card = document.createElement("article");
@@ -455,7 +523,7 @@ function makeCard(r) {
   head.className = "card-head";
 
   const name = document.createElement("h3");
-  name.textContent = r.name;
+  name.textContent = rName(r);
   head.appendChild(name);
 
   const tag = document.createElement("span");
@@ -467,7 +535,7 @@ function makeCard(r) {
 
   if (r.note) {
     const note = document.createElement("p");
-    note.textContent = "메모: " + r.note;
+    note.textContent = t().memoPrefix + rNote(r);
     card.appendChild(note);
   }
 
@@ -477,7 +545,7 @@ function makeCard(r) {
     a.target = "_blank";
     a.rel = "noopener";
     const btn = document.createElement("button");
-    btn.textContent = "🔗 " + l.label;
+    btn.textContent = "🔗 " + lLabel(l);
     a.appendChild(btn);
     card.appendChild(a);
   });
@@ -515,11 +583,13 @@ function render() {
     const q = state.query.toLowerCase();
     list = allRecipes().filter(r =>
       r.name.toLowerCase().includes(q) ||
+      (r.nameEn || "").toLowerCase().includes(q) ||
       (r.note || "").toLowerCase().includes(q) ||
+      (r.noteEn || "").toLowerCase().includes(q) ||
       catLabel(r.category).toLowerCase().includes(q)
     );
     count.hidden = false;
-    count.textContent = "\"" + state.query + "\" 검색 결과 " + list.length + "개";
+    count.textContent = t().count(state.query, list.length);
   } else {
     list = allRecipes().filter(r => r.category === state.activeCat);
     count.hidden = true;
@@ -566,9 +636,7 @@ document.getElementById("f-save").addEventListener("click", () => {
 
   if (!name || !url || !/^https?:\/\//.test(url)) {
     const err = document.getElementById("f-err");
-    err.textContent = !name || !url
-      ? "이름과 링크를 입력해 주세요."
-      : "링크는 http:// 또는 https:// 로 시작해야 해요.";
+    err.textContent = (!name || !url) ? t().errRequired : t().errUrl;
     err.style.display = "block";
     return;
   }
@@ -585,6 +653,15 @@ document.getElementById("f-save").addEventListener("click", () => {
   render();
 });
 
+/* --- Language toggle --- */
+document.getElementById("lang-btn").addEventListener("click", () => {
+  state.lang = state.lang === "ko" ? "en" : "ko";
+  try { localStorage.setItem(LANG_KEY, state.lang); } catch (e) {}
+  applyLang();
+  render();
+});
+
+applyLang();
 render();
 </script>
 
