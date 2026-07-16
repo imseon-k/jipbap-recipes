@@ -584,7 +584,8 @@ function makeCard(r) {
     card.appendChild(note);
   }
 
-  r.links.forEach(l => {
+  // One button per card — only the first link is shown
+  r.links.slice(0, 1).forEach(l => {
     const a = document.createElement("a");
     a.href = l.url;
     a.target = "_blank";
