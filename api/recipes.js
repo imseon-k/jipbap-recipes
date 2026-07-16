@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     if (req.method === "GET") {
       const rows = await sql`
         SELECT id, name, category, note, links
-        FROM recipes ORDER BY id`;
+        FROM recipes ORDER BY id DESC`;
       return res.status(200).json(rows);
     }
 
