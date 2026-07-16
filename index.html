@@ -459,16 +459,18 @@ const RECIPES = [
   { name: "토마토 치즈 샌드위치", nameEn: "Tomato Cheese Sandwich", category: "bread", links: [{ label: "YouTube", url: "https://youtube.com/shorts/rsID5whbiyY?si=AdDEFDmQyjJTlrBz" }], note: "치즈만 뿌려서 먼저 빵 굽기", noteEn: "Sprinkle cheese on the bread and toast it first" },
 ];
 
-const STORE_KEY = "recipe-board-custom";
-function loadCustom() {
-  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
-  catch (e) { return []; }
-}
-function saveCustom(list) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(list)); } catch (e) {}
-}
-let CUSTOM = loadCustom();
+/* Shared recipes live in the DB (Neon Postgres via /api/recipes) */
+let CUSTOM = [];
 const allRecipes = () => RECIPES.concat(CUSTOM);
+
+async function loadShared() {
+  try {
+    const res = await fetch("/api/recipes");
+    if (!res.ok) return;
+    CUSTOM = await res.json();
+    render();
+  } catch (e) { /* offline or local file — board still shows built-in recipes */ }
+}
 
 function linkLabel(url) {
   if (/instagram\.com/.test(url)) return "Instagram";
@@ -494,6 +496,7 @@ const I18N = {
     cancel: "취소", save: "저장",
     errRequired: "이름과 링크를 입력해 주세요.",
     errUrl: "링크는 http:// 또는 https:// 로 시작해야 해요.",
+    errServer: "저장에 실패했어요. 잠시 후 다시 시도해 주세요.",
     count: (q, n) => "\"" + q + "\" 검색 결과 " + n + "개",
   },
   en: {
@@ -510,6 +513,7 @@ const I18N = {
     cancel: "Cancel", save: "Save",
     errRequired: "Please enter a name and a link.",
     errUrl: "The link must start with http:// or https://.",
+    errServer: "Failed to save. Please try again shortly.",
     count: (q, n) => n + " result" + (n === 1 ? "" : "s") + " for \"" + q + "\"",
   },
 };
@@ -655,29 +659,43 @@ document.getElementById("add-btn").addEventListener("click", openSheet);
 document.getElementById("f-cancel").addEventListener("click", closeSheet);
 overlay.addEventListener("click", e => { if (e.target === overlay) closeSheet(); });
 
-document.getElementById("f-save").addEventListener("click", () => {
+document.getElementById("f-save").addEventListener("click", async () => {
   const name = document.getElementById("f-name").value.trim();
   const url = document.getElementById("f-link").value.trim();
   const memo = document.getElementById("f-memo").value.trim();
   const cat = catSelect.value;
+  const err = document.getElementById("f-err");
+  const saveBtn = document.getElementById("f-save");
 
   if (!name || !url || !/^https?:\/\//.test(url)) {
-    const err = document.getElementById("f-err");
     err.textContent = (!name || !url) ? t().errRequired : t().errUrl;
     err.style.display = "block";
     return;
   }
 
-  const recipe = { name, category: cat, links: [{ label: linkLabel(url), url }] };
-  if (memo) recipe.note = memo;
-  CUSTOM.push(recipe);
-  saveCustom(CUSTOM);
+  saveBtn.disabled = true;
+  err.style.display = "none";
+  try {
+    const res = await fetch("/api/recipes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, category: cat, note: memo || null, url }),
+    });
+    if (!res.ok) throw new Error("save failed");
+    const row = await res.json();
+    CUSTOM.push(row);
 
-  state.activeCat = cat;
-  state.query = "";
-  document.getElementById("search").value = "";
-  closeSheet();
-  render();
+    state.activeCat = cat;
+    state.query = "";
+    document.getElementById("search").value = "";
+    closeSheet();
+    render();
+  } catch (e) {
+    err.textContent = t().errServer;
+    err.style.display = "block";
+  } finally {
+    saveBtn.disabled = false;
+  }
 });
 
 /* --- Tab scroll arrows --- */
@@ -704,6 +722,7 @@ document.getElementById("lang-btn").addEventListener("click", () => {
 
 applyLang();
 render();
+loadShared();
 </script>
 
 </body>
