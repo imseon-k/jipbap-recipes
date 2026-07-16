@@ -8,6 +8,11 @@
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/favicon.png">
 
+<!-- Google Fonts: Stack Sans Text (headers) + Roboto (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
 <!-- Social sharing (Open Graph / Twitter) -->
 <meta name="description" content="카드로 모아보는 집밥 레시피 아이디어 보드 — Cooking recipe idea board">
 <meta property="og:type" content="website">
@@ -39,8 +44,10 @@
     --adm-color-box: #FFFFFF;              /* card / input surface */
     --adm-color-badge-bg: #FFF3B0;
     --adm-color-border: #E5E5E5;
-    --adm-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    --adm-font-family: "Roboto", -apple-system, BlinkMacSystemFont,
       "Apple SD Gothic Neo", "Noto Sans KR", Tahoma, Arial, sans-serif;
+    --adm-font-head: "Stack Sans Text", "Roboto", -apple-system,
+      "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     --adm-radius-s: 4px;    /* button */
     --adm-radius-m: 6px;    /* search bar */
     --adm-radius-l: 8px;    /* card */
@@ -71,6 +78,7 @@
     flex-shrink: 0;
   }
   h1 {
+    font-family: var(--adm-font-head);
     font-size: 20px;
     font-weight: 700;
     color: var(--adm-color-text);
@@ -82,7 +90,7 @@
     flex-shrink: 0;
     font-family: var(--adm-font-family);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--adm-color-text);
     background: var(--adm-color-box);
     border: 1px solid #CCCCCC;
@@ -186,8 +194,9 @@
 
   /* Card title */
   .card h3 {
+    font-family: var(--adm-font-head);
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.4;
     margin: 0;
   }
@@ -226,7 +235,7 @@
     width: 100%;
     font-family: var(--adm-font-family);
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--adm-color-on-primary);
     background: var(--adm-color-primary);
     border: 1px solid var(--adm-color-primary);
@@ -287,6 +296,7 @@
     padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
   }
   .sheet h2 {
+    font-family: var(--adm-font-head);
     font-size: 17px;
     font-weight: 700;
     margin: 0 0 16px;
@@ -294,7 +304,7 @@
   .sheet label {
     display: block;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     color: #5C5C5C;
     margin: 12px 0 4px;
   }
@@ -330,7 +340,7 @@
     flex: 1;
     font-family: var(--adm-font-family);
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
     border-radius: var(--adm-radius-s);
     padding: 10px 12px;
     min-height: 44px;
