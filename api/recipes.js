@@ -2,7 +2,7 @@ import { neon } from "@neondatabase/serverless";
 
 const sql = neon(process.env.DATABASE_URL || process.env.POSTGRES_URL);
 
-const CATEGORIES = ["chicken", "veggie", "pork", "seafood", "noodle", "bread"];
+const CATEGORIES = ["chicken", "veggie", "pork", "beef", "seafood", "noodle", "bread"];
 
 let ready;
 function ensureTable() {

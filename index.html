@@ -412,7 +412,8 @@
 const CATEGORIES = [
   { id: "chicken", label: "🍗 Chicken" },
   { id: "veggie",  label: "🥕🥦 Veggies & Tofu" },
-  { id: "pork",    label: "🥩 Pork & Beef" },
+  { id: "pork",    label: "🐷 Pork" },
+  { id: "beef",    label: "🥩 Beef" },
   { id: "seafood", label: "🐙🐟 Seafood" },
   { id: "noodle",  label: "🍜 Noodle & Pasta" },
   { id: "bread",   label: "🍞 Bread & Sandwiches" },
@@ -458,12 +459,12 @@ const RECIPES = [
   { name: "배추삼겹찜", nameEn: "Steamed Pork Belly & Cabbage", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DYojPbJzTV6/?igsh=MWlkM2Y4ZXhnNzBu" }] },
   { name: "애호박찌개", nameEn: "Zucchini Stew", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DXRVnd3GdCv/?igsh=ZXo0bHdmdWRtbXNz" }] },
   { name: "김치찜", nameEn: "Braised Kimchi (kimchi-jjim)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DW8ZOt7ge8z/?igsh=cWxsem4wNDlicWVj" }] },
-  { name: "원팬함박스테이크", nameEn: "One-Pan Hamburg Steak", category: "pork", links: [{ label: "X", url: "https://x.com/akari_hasegawa/status/1613892330855223296?s=46" }] },
+  { name: "원팬함박스테이크", nameEn: "One-Pan Hamburg Steak", category: "beef", links: [{ label: "X", url: "https://x.com/akari_hasegawa/status/1613892330855223296?s=46" }] },
   { name: "라이스페이퍼로 만드는 만두 (또는 전)", nameEn: "Rice Paper Dumplings (or pancakes)", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/I1kxPh69ccQ?si=x4CbJhHMjU29E7kw" }] },
   { name: "김치항정파스타", nameEn: "Kimchi Pork Jowl Pasta", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DVI5iPUgczN/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
   { name: "스팸감자전", nameEn: "Spam Potato Pancake", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/7G4mRS6Mct8?si=_xok8Bt7Qn6jpLgU" }] },
   { name: "샤브샤브 감자탕", nameEn: "Shabu-Shabu Gamjatang (pork bone soup)", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/6E7Uaj6JBvU?si=5BOey9wluCva_6Wt" }] },
-  { name: "간편우삼겹감자탕", nameEn: "Easy Beef Brisket Gamjatang", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUh887KAUuv/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
+  { name: "간편우삼겹감자탕", nameEn: "Easy Beef Brisket Gamjatang", category: "beef", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DUh887KAUuv/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" }] },
   { name: "라이스페이퍼 소떡소떡", nameEn: "Rice Paper Sotteok-Sotteok (sausage & rice cake skewers)", category: "pork", links: [{ label: "YouTube", url: "https://youtube.com/shorts/Xt_EauvyNH0?si=KMwn4VuBPPDNocVZ" }] },
   { name: "스팸땡초김밥", nameEn: "Spam & Chili Gimbap", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DSR2bEugbiG/?igsh=MTRmZjV1eWFwcGh1OA==" }] },
   { name: "간단제육볶음", nameEn: "Easy Jeyuk Bokkeum (spicy pork stir-fry)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DT7HvPLEvDb/?igsh=MWplZnkwbXhzejRmYQ==" }] },
@@ -471,7 +472,7 @@ const RECIPES = [
   { name: "간편수육", nameEn: "Easy Suyuk (boiled pork)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTfFZxdAe8-/?igsh=MTM1bzV0NjY0N3dxeA==" }] },
   { name: "순두부 김치찌개", nameEn: "Soft Tofu Kimchi Stew", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTM39uvEu0K/?igsh=bThsZGE0YjhjOWU=" }] },
   { name: "된장목살스테이크", nameEn: "Doenjang Pork Neck Steak", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DTH0o7kEgXp/?igsh=MW5pbGpsNTNtejVyYg==" }] },
-  { name: "프로틴 퀘사딜라 (다진 소고기)", nameEn: "Protein Quesadilla (ground beef)", category: "pork", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DXBnxtpj5qL/?igsh=MTJwYmN5aGZ1NzI4bA==" }] },
+  { name: "프로틴 퀘사딜라 (다진 소고기)", nameEn: "Protein Quesadilla (ground beef)", category: "beef", links: [{ label: "Instagram", url: "https://www.instagram.com/reel/DXBnxtpj5qL/?igsh=MTJwYmN5aGZ1NzI4bA==" }] },
 
   // Seafood
   { name: "양배추참치덮밥", nameEn: "Cabbage Tuna Rice Bowl", category: "seafood", links: [{ label: "Blog", url: "https://blog.naver.com/ehdrmsdldhk/224078510996" }] },
