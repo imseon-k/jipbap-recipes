@@ -449,13 +449,13 @@ Recipe Board</h1>
 <script>
 /* Category emojis + badge colors follow the Figma "food category" section */
 const CATEGORIES = [
-  { id: "chicken", label: "Chicken", emoji: "🐔", badge: "#FFF1B8" },
-  { id: "veggie",  label: "Veggie",  emoji: "🥦", badge: "#F4FFB8" },
-  { id: "pork",    label: "Pork",    emoji: "🐷", badge: "#FFF1F0" },
-  { id: "beef",    label: "Beef",    emoji: "🐮", badge: "#F9F0FF" },
-  { id: "seafood", label: "Seafood", emoji: "🐟", badge: "#E6FFFB" },
-  { id: "noodle",  label: "Noodle",  emoji: "🍜", badge: "#FFF2E8" },
-  { id: "bread",   label: "Bread",   emoji: "🍞", badge: "#FFF1B8" },
+  { id: "chicken", label: "Chicken", labelKo: "닭고기",     emoji: "🐔", badge: "#FFF1B8" },
+  { id: "veggie",  label: "Veggie",  labelKo: "야채/두부",  emoji: "🥦", badge: "#F4FFB8" },
+  { id: "pork",    label: "Pork",    labelKo: "돼지고기",   emoji: "🐷", badge: "#FFF1F0" },
+  { id: "beef",    label: "Beef",    labelKo: "소고기",     emoji: "🐮", badge: "#F9F0FF" },
+  { id: "seafood", label: "Seafood", labelKo: "해산물",     emoji: "🐟", badge: "#E6FFFB" },
+  { id: "noodle",  label: "Noodle",  labelKo: "면 요리",    emoji: "🍜", badge: "#FFF2E8" },
+  { id: "bread",   label: "Bread",   labelKo: "빵/샌드위치", emoji: "🍞", badge: "#FFF1B8" },
 ];
 
 const RECIPES = [
@@ -622,7 +622,9 @@ const rName = r => (state.lang === "en" && r.nameEn) ? r.nameEn : r.name;
 const rNote = r => (state.lang === "en" && r.noteEn) ? r.noteEn : r.note;
 const lLabel = l => (state.lang === "en" && l.labelEn) ? l.labelEn : l.label;
 const catOf = id => CATEGORIES.find(c => c.id === id);
-const catLabel = id => { const c = catOf(id); return c ? c.emoji + " " + c.label : id; };
+const catText = c => state.lang === "ko" ? c.labelKo : c.label;
+/* for search matching — includes EN + KO labels */
+const catLabel = id => { const c = catOf(id); return c ? c.emoji + " " + c.label + " " + c.labelKo : id; };
 
 function applyLang() {
   document.documentElement.lang = state.lang;
@@ -641,6 +643,7 @@ function applyLang() {
   document.getElementById("l-cat").textContent = t().lblCat;
   document.getElementById("f-cancel").textContent = t().cancel;
   document.getElementById("f-save").textContent = t().save;
+  if (typeof refreshCatOptions === "function") refreshCatOptions();
 }
 
 const ARROW_SVG = '<img src="assets/up-right.svg" alt="" width="24" height="24">';
@@ -688,7 +691,8 @@ function renderTabs() {
   const items = [{ id: "all", label: t().all, emoji: "" }].concat(CATEGORIES);
   items.forEach(cat => {
     const btn = document.createElement("button");
-    btn.textContent = (cat.emoji ? cat.emoji + " " : "") + cat.label;
+    btn.textContent = (cat.emoji ? cat.emoji + " " : "") +
+      (cat.id === "all" ? cat.label : catText(cat));
     btn.className = (!state.query && cat.id === state.activeCat) ? "active" : "";
     btn.addEventListener("click", () => {
       state.activeCat = cat.id;
@@ -738,12 +742,18 @@ document.getElementById("search").addEventListener("input", e => {
 /* --- Add recipe sheet --- */
 const overlay = document.getElementById("overlay");
 const catSelect = document.getElementById("f-cat");
-CATEGORIES.forEach(cat => {
-  const opt = document.createElement("option");
-  opt.value = cat.id;
-  opt.textContent = cat.emoji + " " + cat.label;
-  catSelect.appendChild(opt);
-});
+function refreshCatOptions() {
+  const prev = catSelect.value;
+  catSelect.innerHTML = "";
+  CATEGORIES.forEach(cat => {
+    const opt = document.createElement("option");
+    opt.value = cat.id;
+    opt.textContent = cat.emoji + " " + catText(cat);
+    catSelect.appendChild(opt);
+  });
+  if (prev) catSelect.value = prev;
+}
+refreshCatOptions();
 
 function openSheet() {
   document.getElementById("f-name").value = "";
