@@ -11,7 +11,7 @@
 <!-- Google Fonts: Stack Sans Text (headers) + Roboto (body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@700&family=Stack+Sans+Headline:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
 <!-- Social sharing (Open Graph / Twitter) -->
 <meta name="description" content="카드로 모아보는 집밥 레시피 아이디어 보드 — Cooking recipe idea board">
@@ -56,7 +56,7 @@
   * { box-sizing: border-box; }
   body {
     margin: 0 auto;
-    padding: 16px 12px 48px;
+    padding: 12px 16px 48px;
     max-width: 480px;
     background: var(--adm-color-background);
     color: var(--adm-color-text);
@@ -65,79 +65,113 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .page-head {
+  /* Header — logo left, KR + add buttons right (Figma 3:171) */
+  .top-bar {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 8px;
-    margin: 8px 4px 16px;
+  }
+  .logo {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
   }
   .head-actions {
     display: flex;
-    gap: 6px;
+    align-items: center;
+    gap: 8px;
     flex-shrink: 0;
   }
-  h1 {
-    font-family: var(--adm-font-head);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--adm-color-text);
-    margin: 0;
-  }
-
-  /* adm-button — small, secondary (header) */
-  .add-btn {
-    flex-shrink: 0;
+  .btn-lang {
+    height: 40px;
+    padding: 0 12px;
     font-family: var(--adm-font-family);
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 500;
-    color: var(--adm-color-text);
-    background: var(--adm-color-box);
-    border: 1px solid #CCCCCC;
-    border-radius: var(--adm-radius-s);
-    padding: 6px 10px;
-    min-height: 32px;
+    letter-spacing: -0.16px;
+    color: #333333;
+    background: #FFFFFF;
+    border: 0;
+    border-radius: 12px;
     cursor: pointer;
   }
-  .add-btn:active { background: #F0F0F0; }
+  .btn-lang:active { background: #F0F0F0; }
+  .btn-add {
+    width: 40px;
+    height: 40px;
+    background: #FFEC3D;
+    border: 0;
+    border-radius: 99999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .btn-add:active { background: #F0DC1F; }
+  .btn-add img { width: 24px; height: 24px; }
 
-  /* adm-search-bar */
+  /* Title — Stack Sans Headline Bold 24 (Figma 3:180) */
+  h1 {
+    font-family: "Stack Sans Headline", var(--adm-font-head);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.24px;
+    color: #212121;
+    white-space: pre-line;
+    margin: 8px 0 0;
+  }
+
+  /* Search bar — white pill, icon inside (Figma 3:18) */
+  .search-wrap {
+    position: relative;
+    margin-top: 24px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+  }
   .search {
     width: 100%;
-    height: 40px;
+    height: 48px;
     font-family: var(--adm-font-family);
-    font-size: 15px;
+    font-size: 16px;
+    letter-spacing: -0.16px;
     color: var(--adm-color-text);
-    background: var(--adm-color-box);
-    border: 1px solid var(--adm-color-border);
-    border-radius: var(--adm-radius-m);
-    padding: 0 12px;
-    margin-bottom: 8px;
+    background: #FFFFFF;
+    border: 0;
+    border-radius: 16px;
+    padding: 0 16px 0 48px;
   }
   .search:focus {
-    outline: 2px solid var(--adm-color-accent);
+    outline: 2px solid #212121;
     outline-offset: 1px;
   }
-  .search::placeholder { color: #757575; }
+  .search::placeholder { color: #9F9F9F; }
 
-  /* adm-tabs — underline indicator style, with edge scroll arrows */
+  /* Tabs — pill style, active = dark (Figma 3:258) */
   .tabs-wrap {
     display: flex;
-    align-items: stretch;
-    margin: 0 0 16px;
-    border-bottom: 1px solid var(--adm-color-border);
+    align-items: center;
+    margin-top: 12px;
   }
   .tab-arrow {
     flex-shrink: 0;
     width: 32px;
-    font-size: 18px;
-    line-height: 1;
-    color: var(--adm-color-text-secondary);
+    height: 40px;
     background: transparent;
     border: 0;
     cursor: pointer;
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  .tab-arrow img { width: 20px; height: 20px; }
   .tab-arrow:disabled {
     opacity: 0.25;
     cursor: default;
@@ -154,99 +188,92 @@
   .tabs::-webkit-scrollbar { display: none; }
   .tabs button {
     flex-shrink: 0;
+    height: 40px;
+    padding: 0 16px;
     font-family: var(--adm-font-family);
-    font-size: 15px;
-    color: var(--adm-color-text-secondary);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.16px;
+    color: #757575;
     background: transparent;
     border: 0;
-    border-bottom: 2px solid transparent;
-    padding: 10px 12px;
+    border-radius: 12px;
     cursor: pointer;
   }
   .tabs button.active {
-    color: var(--adm-color-accent);
+    background: #333333;
+    color: #FFFFFF;
     font-weight: 700;
-    border-bottom-color: var(--adm-color-accent);
   }
 
   /* Result count (search mode) */
   .count {
     font-size: 13px;
     color: #5C5C5C;
-    margin: 0 4px 12px;
+    margin: 12px 4px 0;
   }
 
-  /* adm-card */
+  /* Card container (Figma 1:113: pt 12) */
+  #board { margin-top: 12px; }
+
+  /* Card — Figma spec: node 3:309 (whole card is the link) */
   .card {
-    background: var(--adm-color-box);
-    border-radius: var(--adm-radius-l);
-    padding: 12px;
-    margin-bottom: 12px;
+    display: block;
+    position: relative;
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 20px 16px;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
   }
+  .card:active { background: #FAFAFA; }
 
-  /* Card header row: title left, badge right */
-  .card-head {
+  /* category emoji badge — 48px circle */
+  .card-badge {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 99999px;
+    font-size: 24px;
+    line-height: 1.2;
+    margin-bottom: 16px;
   }
 
-  /* Card title */
+  /* title — Stack Sans Headline Bold 16 */
   .card h3 {
-    font-family: var(--adm-font-head);
+    font-family: "Stack Sans Headline", var(--adm-font-head);
     font-size: 16px;
     font-weight: 700;
-    line-height: 1.4;
+    line-height: 1.2;
+    letter-spacing: -0.16px;
+    color: #212121;
     margin: 0;
   }
 
-  /* adm-tag */
-  .tag {
-    flex-shrink: 0;
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.5;
-    color: var(--adm-color-accent);
-    background: var(--adm-color-badge-bg);
-    border-radius: var(--adm-radius-s);
-    padding: 2px 8px;
-  }
-
-  /* memo — sits right under the title */
+  /* note — Roboto Regular 13 */
   .card p {
     font-size: 13px;
-    line-height: 1.5;
-    color: var(--adm-color-text-secondary);
-    margin: 6px 0 0;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: -0.065px;
+    color: #757575;
+    margin: 8px 0 0;
   }
 
-  /* links stack full-width; 16px gap above the first button */
-  .card a {
-    display: block;
-    text-decoration: none;
-    margin-top: 8px;
-  }
-  .card a:first-of-type { margin-top: 16px; }
-
-  /* adm-button — color primary, block (full-width) */
-  .card button {
-    width: 100%;
-    font-family: var(--adm-font-family);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--adm-color-on-primary);
-    background: var(--adm-color-primary);
-    border: 1px solid var(--adm-color-primary);
-    border-radius: var(--adm-radius-s);
-    padding: 8px 12px;
-    min-height: 36px;
-    cursor: pointer;
-  }
-  .card button:active {
-    background: #F0C420;
-    border-color: #F0C420;
+  /* outbound arrow — 48px hit area pinned to the top-right corner */
+  .card-arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* adm-back-to-top — floating button, shows once the header scrolls away */
@@ -273,6 +300,7 @@
     opacity: 1;
     pointer-events: auto;
   }
+  .top-btn img { width: 24px; height: 24px; }
   @media (min-width: 480px) {
     .top-btn { right: calc(50% - 240px + 16px); }
   }
@@ -346,12 +374,13 @@
     min-height: 44px;
     cursor: pointer;
   }
+  .sheet-actions button { border-radius: 12px; }
   .btn-save {
-    color: var(--adm-color-on-primary);
-    background: var(--adm-color-primary);
-    border: 1px solid var(--adm-color-primary);
+    color: #333333;
+    background: #FFEC3D;
+    border: 0;
   }
-  .btn-save:active { background: #F0C420; border-color: #F0C420; }
+  .btn-save:active { background: #F0DC1F; }
   .btn-cancel {
     color: var(--adm-color-text);
     background: var(--adm-color-box);
@@ -361,27 +390,33 @@
 </head>
 <body>
 
-<div class="page-head">
-  <h1 id="title">집밥 레시피 아이디어</h1>
+<header class="top-bar">
+  <img class="logo" src="assets/logo.png" alt="Random Recipe Board logo">
   <div class="head-actions">
-    <button class="add-btn" id="lang-btn" aria-label="Switch language">EN</button>
-    <button class="add-btn" id="add-btn">＋ 추가</button>
+    <button class="btn-lang" id="lang-btn" aria-label="Switch language">EN</button>
+    <button class="btn-add" id="add-btn" aria-label="Add recipe"><img src="assets/plus.svg" alt=""></button>
   </div>
+</header>
+
+<h1 id="title">Random
+Recipe Board</h1>
+
+<div class="search-wrap">
+  <img class="search-icon" src="assets/search.svg" alt="">
+  <input type="search" id="search" class="search" placeholder="Search a keyword in KR or ENG">
 </div>
 
-<input type="search" id="search" class="search" placeholder="레시피 검색 (예: 두부, 김밥, 파스타)">
-
 <div class="tabs-wrap">
-  <button class="tab-arrow" id="tab-prev" aria-label="Scroll tabs left">‹</button>
+  <button class="tab-arrow" id="tab-prev" aria-label="Scroll tabs left"><img src="assets/chevron-left.svg" alt=""></button>
   <nav class="tabs" id="tabs"></nav>
-  <button class="tab-arrow" id="tab-next" aria-label="Scroll tabs right">›</button>
+  <button class="tab-arrow" id="tab-next" aria-label="Scroll tabs right"><img src="assets/chevron-right.svg" alt=""></button>
 </div>
 
 <p class="count" id="count" hidden></p>
 
 <main id="board"></main>
 
-<button class="top-btn" id="top-btn" aria-label="Back to top">↑</button>
+<button class="top-btn" id="top-btn" aria-label="Back to top"><img src="assets/chevron-up.svg" alt=""></button>
 
 <div class="overlay" id="overlay" hidden>
   <div class="sheet" role="dialog" aria-labelledby="sheet-title">
@@ -409,14 +444,15 @@
 </div>
 
 <script>
+/* Category emojis + badge colors follow the Figma "food category" section */
 const CATEGORIES = [
-  { id: "chicken", label: "🍗 Chicken" },
-  { id: "veggie",  label: "🥕🥦 Veggies & Tofu" },
-  { id: "pork",    label: "🐷 Pork" },
-  { id: "beef",    label: "🥩 Beef" },
-  { id: "seafood", label: "🐙🐟 Seafood" },
-  { id: "noodle",  label: "🍜 Noodle & Pasta" },
-  { id: "bread",   label: "🍞 Bread & Sandwiches" },
+  { id: "chicken", label: "Chicken", emoji: "🐔", badge: "#FFF1B8" },
+  { id: "veggie",  label: "Veggie",  emoji: "🥦", badge: "#F4FFB8" },
+  { id: "pork",    label: "Pork",    emoji: "🐷", badge: "#FFF1F0" },
+  { id: "beef",    label: "Beef",    emoji: "🐮", badge: "#F9F0FF" },
+  { id: "seafood", label: "Seafood", emoji: "🐟", badge: "#E6FFFB" },
+  { id: "noodle",  label: "Noodle",  emoji: "🍜", badge: "#FFF2E8" },
+  { id: "bread",   label: "Bread",   emoji: "🍞", badge: "#FFF1B8" },
 ];
 
 const RECIPES = [
@@ -539,10 +575,11 @@ function linkLabel(url) {
 /* --- i18n --- */
 const I18N = {
   ko: {
-    title: "집밥 레시피 아이디어",
-    addBtn: "＋ 추가",
+    title: "Random\nRecipe Board",
+    all: "전체",
+    addLabel: "레시피 추가",
     langBtn: "EN",
-    searchPh: "레시피 검색 — 한글/영어 모두 가능 (예: 두부, tofu)",
+    searchPh: "한글/영어 키워드로 검색",
     memoPrefix: "메모: ",
     sheetTitle: "새 레시피 추가",
     lblName: "레시피 이름", phName: "예: 두부크림파스타",
@@ -556,10 +593,11 @@ const I18N = {
     count: (q, n) => "\"" + q + "\" 검색 결과 " + n + "개",
   },
   en: {
-    title: "Cooking recipe",
-    addBtn: "＋ Add",
+    title: "Random\nRecipe Board",
+    all: "All",
+    addLabel: "Add recipe",
     langBtn: "KR",
-    searchPh: "Search in English or Korean (e.g. tofu, 두부)",
+    searchPh: "Search a keyword in KR or ENG",
     memoPrefix: "Note: ",
     sheetTitle: "Add a New Recipe",
     lblName: "Recipe name", phName: "e.g. Tofu Cream Pasta",
@@ -575,18 +613,19 @@ const I18N = {
 };
 
 const LANG_KEY = "recipe-board-lang";
-const state = { activeCat: "chicken", query: "", lang: localStorage.getItem(LANG_KEY) || "ko" };
+const state = { activeCat: "all", query: "", lang: localStorage.getItem(LANG_KEY) || "ko" };
 const t = () => I18N[state.lang];
 const rName = r => (state.lang === "en" && r.nameEn) ? r.nameEn : r.name;
 const rNote = r => (state.lang === "en" && r.noteEn) ? r.noteEn : r.note;
 const lLabel = l => (state.lang === "en" && l.labelEn) ? l.labelEn : l.label;
-const catLabel = id => CATEGORIES.find(c => c.id === id).label;
+const catOf = id => CATEGORIES.find(c => c.id === id);
+const catLabel = id => { const c = catOf(id); return c ? c.emoji + " " + c.label : id; };
 
 function applyLang() {
   document.documentElement.lang = state.lang;
-  document.title = t().title;
+  document.title = t().title.replace("\n", " ");
   document.getElementById("title").textContent = t().title;
-  document.getElementById("add-btn").textContent = t().addBtn;
+  document.getElementById("add-btn").setAttribute("aria-label", t().addLabel);
   document.getElementById("lang-btn").textContent = t().langBtn;
   document.getElementById("search").placeholder = t().searchPh;
   document.getElementById("sheet-title").textContent = t().sheetTitle;
@@ -601,41 +640,41 @@ function applyLang() {
   document.getElementById("f-save").textContent = t().save;
 }
 
-function makeCard(r) {
-  const card = document.createElement("article");
-  card.className = "card";
+const ARROW_SVG = '<img src="assets/up-right.svg" alt="" width="24" height="24">';
 
-  const head = document.createElement("div");
-  head.className = "card-head";
+function makeCard(r) {
+  const cat = catOf(r.category) || {};
+  const link = r.links && r.links[0];
+
+  // Whole card is the link (Figma: arrow marks it as outbound)
+  const card = document.createElement("a");
+  card.className = "card";
+  if (link) {
+    card.href = link.url;
+    card.target = "_blank";
+    card.rel = "noopener";
+  }
+
+  const badge = document.createElement("span");
+  badge.className = "card-badge";
+  badge.style.background = cat.badge || "#F5F5F5";
+  badge.textContent = cat.emoji || "🍽";
+  card.appendChild(badge);
 
   const name = document.createElement("h3");
   name.textContent = rName(r);
-  head.appendChild(name);
-
-  const tag = document.createElement("span");
-  tag.className = "tag";
-  tag.textContent = catLabel(r.category);
-  head.appendChild(tag);
-
-  card.appendChild(head);
+  card.appendChild(name);
 
   if (r.note) {
     const note = document.createElement("p");
-    note.textContent = t().memoPrefix + rNote(r);
+    note.textContent = rNote(r);
     card.appendChild(note);
   }
 
-  // One button per card — only the first link is shown
-  r.links.slice(0, 1).forEach(l => {
-    const a = document.createElement("a");
-    a.href = l.url;
-    a.target = "_blank";
-    a.rel = "noopener";
-    const btn = document.createElement("button");
-    btn.textContent = "🔗 " + lLabel(l);
-    a.appendChild(btn);
-    card.appendChild(a);
-  });
+  const arrow = document.createElement("span");
+  arrow.className = "card-arrow";
+  arrow.innerHTML = ARROW_SVG;
+  card.appendChild(arrow);
 
   return card;
 }
@@ -643,10 +682,10 @@ function makeCard(r) {
 function renderTabs() {
   const tabs = document.getElementById("tabs");
   tabs.innerHTML = "";
-  CATEGORIES.forEach(cat => {
-    const n = allRecipes().filter(r => r.category === cat.id).length;
+  const items = [{ id: "all", label: t().all, emoji: "" }].concat(CATEGORIES);
+  items.forEach(cat => {
     const btn = document.createElement("button");
-    btn.textContent = cat.label + " " + n;
+    btn.textContent = (cat.emoji ? cat.emoji + " " : "") + cat.label;
     btn.className = (!state.query && cat.id === state.activeCat) ? "active" : "";
     btn.addEventListener("click", () => {
       state.activeCat = cat.id;
@@ -679,7 +718,9 @@ function render() {
     count.hidden = false;
     count.textContent = t().count(state.query, list.length);
   } else {
-    list = allRecipes().filter(r => r.category === state.activeCat);
+    list = state.activeCat === "all"
+      ? allRecipes()
+      : allRecipes().filter(r => r.category === state.activeCat);
     count.hidden = true;
   }
 
@@ -697,7 +738,7 @@ const catSelect = document.getElementById("f-cat");
 CATEGORIES.forEach(cat => {
   const opt = document.createElement("option");
   opt.value = cat.id;
-  opt.textContent = cat.label;
+  opt.textContent = cat.emoji + " " + cat.label;
   catSelect.appendChild(opt);
 });
 
@@ -705,7 +746,7 @@ function openSheet() {
   document.getElementById("f-name").value = "";
   document.getElementById("f-link").value = "";
   document.getElementById("f-memo").value = "";
-  catSelect.value = state.activeCat;
+  catSelect.value = catOf(state.activeCat) ? state.activeCat : "chicken";
   document.getElementById("f-err").style.display = "none";
   overlay.hidden = false;
   document.getElementById("f-name").focus();
@@ -771,9 +812,9 @@ window.addEventListener("resize", updateArrows);
 
 /* --- Back to top --- */
 const topBtn = document.getElementById("top-btn");
-const pageHead = document.querySelector(".page-head");
+const titleEl = document.getElementById("title");
 window.addEventListener("scroll", () => {
-  topBtn.classList.toggle("show", window.scrollY > pageHead.offsetTop + pageHead.offsetHeight);
+  topBtn.classList.toggle("show", window.scrollY > titleEl.offsetTop + titleEl.offsetHeight);
 }, { passive: true });
 topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
