@@ -98,14 +98,36 @@
   }
   .search::placeholder { color: #757575; }
 
-  /* adm-tabs — underline indicator style */
+  /* adm-tabs — underline indicator style, with edge scroll arrows */
+  .tabs-wrap {
+    display: flex;
+    align-items: stretch;
+    margin: 0 0 16px;
+    border-bottom: 1px solid var(--adm-color-border);
+  }
+  .tab-arrow {
+    flex-shrink: 0;
+    width: 32px;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--adm-color-text-secondary);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+  }
+  .tab-arrow:disabled {
+    opacity: 0.25;
+    cursor: default;
+  }
   .tabs {
+    flex: 1;
+    min-width: 0;
     display: flex;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    margin: 0 0 16px;
-    border-bottom: 1px solid var(--adm-color-border);
+    scroll-behavior: smooth;
   }
   .tabs::-webkit-scrollbar { display: none; }
   .tabs button {
@@ -297,7 +319,11 @@
 
 <input type="search" id="search" class="search" placeholder="레시피 검색 (예: 두부, 김밥, 파스타)">
 
-<nav class="tabs" id="tabs"></nav>
+<div class="tabs-wrap">
+  <button class="tab-arrow" id="tab-prev" aria-label="Scroll tabs left">‹</button>
+  <nav class="tabs" id="tabs"></nav>
+  <button class="tab-arrow" id="tab-next" aria-label="Scroll tabs right">›</button>
+</div>
 
 <p class="count" id="count" hidden></p>
 
@@ -569,6 +595,7 @@ function renderTabs() {
     });
     tabs.appendChild(btn);
   });
+  updateArrows();
 }
 
 function render() {
@@ -652,6 +679,20 @@ document.getElementById("f-save").addEventListener("click", () => {
   closeSheet();
   render();
 });
+
+/* --- Tab scroll arrows --- */
+const tabsEl = document.getElementById("tabs");
+const tabPrev = document.getElementById("tab-prev");
+const tabNext = document.getElementById("tab-next");
+
+function updateArrows() {
+  tabPrev.disabled = tabsEl.scrollLeft <= 0;
+  tabNext.disabled = tabsEl.scrollLeft + tabsEl.clientWidth >= tabsEl.scrollWidth - 1;
+}
+tabPrev.addEventListener("click", () => tabsEl.scrollBy({ left: -160 }));
+tabNext.addEventListener("click", () => tabsEl.scrollBy({ left: 160 }));
+tabsEl.addEventListener("scroll", updateArrows);
+window.addEventListener("resize", updateArrows);
 
 /* --- Language toggle --- */
 document.getElementById("lang-btn").addEventListener("click", () => {
