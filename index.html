@@ -344,7 +344,9 @@
   .sheet select {
     width: 100%;
     font-family: var(--adm-font-family);
-    font-size: 15px;
+    /* 16px+ prevents iOS Safari's auto-zoom on focus (which caused
+       the horizontal scroll) */
+    font-size: 16px;
     color: var(--adm-color-text);
     background: #FAFAFA;
     border: 1px solid var(--adm-color-border);
