@@ -11,8 +11,7 @@
 <!-- Google Fonts: Stack Sans Text (headers) + Roboto (body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@700&family=Stack+Sans+Headline:wght@700&family=Chiron+GoRound+TC:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT@latest/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
 
 <!-- Social sharing (Open Graph / Twitter) -->
 <meta name="description" content="카드로 모아보는 집밥 레시피 아이디어 보드 — Cooking recipe idea board">
@@ -487,6 +486,74 @@
     background: var(--adm-color-box);
     border: 1px solid #CCCCCC;
   }
+</style>
+
+<style>
+/* ================================================================
+   Cozy Journal theme (draft 3 final) — warm, rounded, playful
+   ================================================================ */
+:root {
+  --adm-color-background: #F3ECDD;
+  --adm-font-family: "Quicksand", "Gowun Dodum", -apple-system, "Apple SD Gothic Neo", sans-serif;
+}
+body { background: #F3ECDD; color: #4A3B2C; font-family: var(--adm-font-family); }
+h1, .card h3, .sheet h2, .roulette h2, .r-name {
+  font-family: "Quicksand", "Jua", sans-serif !important;
+  font-weight: 700 !important;
+  color: #4A3B2C !important;
+}
+.btn-lang { border-radius: 999px; border: 2px solid #4A3B2C22; background: #FFFDF4; color: #4A3B2C; font-weight: 700; }
+.btn-add { background: #E5A63C; }
+.search { border-radius: 999px; border: 2px solid #4A3B2C22; background: #FFFDF4; }
+.search::placeholder { color: #A6957F; }
+.tabs button { border-radius: 999px; color: #8A7B69; font-weight: 700; }
+.tabs button.active { background: #E5A63C; color: #3D2F1F; }
+.card { background: #FFFDF4; }
+.card-badge { transform: rotate(-6deg); box-shadow: 0 0 0 3px #FFFFFF, 0 2px 6px rgba(74, 59, 44, 0.18); }
+.card p { color: #8A7B69; }
+.count { color: #8A7B69; }
+.top-btn { background: #FFFDF4; border: 2px solid #4A3B2C22; }
+.sheet { background: #FFFDF4; border-radius: 24px 24px 0 0; }
+.sheet input, .sheet textarea, .sheet select { background: #FFFFFF; border: 2px solid #4A3B2C1A; border-radius: 14px; }
+.sheet-actions button { border-radius: 999px; }
+.btn-save, .r-view { background: #E5A63C; color: #3D2F1F; border: 0; }
+.btn-cancel { border: 2px solid #4A3B2C22; background: #FFFDF4; color: #4A3B2C; }
+.roulette { background: #FFFDF4; border-radius: 28px; }
+.roulette-slot { background: #F3ECDD; border-radius: 20px; }
+
+/* ---- Pin board + taped memo cards ---- */
+#board {
+  background: url("assets/corkboard.png") repeat, #C69B6A;
+  border: 8px solid #9C6B3E;
+  outline: 2px solid #7C5330;
+  border-radius: 14px;
+  padding: 26px 14px 18px;
+  margin-top: 12px;
+}
+.card {
+  position: relative;
+  margin-bottom: 22px;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 3px 9px rgba(70, 45, 20, 0.28);
+}
+.card::before {
+  content: "";
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  width: 112px;
+  height: 30px;
+  background: url("assets/tape.png") center / 100% 100% no-repeat;
+  transform: translateX(-50%) rotate(-3deg);
+  z-index: 2;
+  pointer-events: none;
+}
+.card:nth-child(odd)  { transform: rotate(0.5deg); }
+.card:nth-child(even) { transform: rotate(-0.6deg); }
+.card:nth-child(even)::before { left: 38%; transform: translateX(-50%) rotate(5deg); }
+.card:nth-child(3n)::before   { left: 64%; transform: translateX(-50%) rotate(-7deg); }
+.card:last-child { margin-bottom: 6px; }
 </style>
 </head>
 <body>
