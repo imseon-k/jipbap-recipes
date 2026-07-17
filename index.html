@@ -319,6 +319,102 @@
     z-index: 10;
   }
   .overlay[hidden] { display: none; }
+  .overlay.center {
+    align-items: center;
+    padding: 24px;
+  }
+
+  /* 감자룰렛 modal */
+  .logo-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  .roulette {
+    width: 100%;
+    max-width: 320px;
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 28px 20px 20px;
+    text-align: center;
+  }
+  .roulette-potato {
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+  }
+  .roulette-potato.spin {
+    animation: potato-shake 0.4s linear infinite;
+  }
+  @keyframes potato-shake {
+    0%   { transform: rotate(0deg) scale(1); }
+    25%  { transform: rotate(-14deg) scale(1.05); }
+    75%  { transform: rotate(14deg) scale(1.05); }
+    100% { transform: rotate(0deg) scale(1); }
+  }
+  .roulette h2 {
+    font-family: var(--adm-font-head);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: #212121;
+    margin: 8px 0 4px;
+  }
+  .roulette-sub {
+    font-size: 13px;
+    color: #757575;
+    margin: 0 0 16px;
+  }
+  .roulette-slot {
+    min-height: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--adm-color-background);
+    border-radius: 16px;
+    padding: 16px 12px;
+  }
+  .roulette-slot .card-badge { margin-bottom: 0; }
+  .r-name {
+    font-family: "Stack Sans Headline", var(--adm-font-head);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.16px;
+    color: #212121;
+    word-break: keep-all;
+  }
+  .r-name.settled { animation: r-pop 0.25s ease-out; }
+  @keyframes r-pop {
+    0% { transform: scale(0.85); opacity: 0.4; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .r-note {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #757575;
+    margin: 0;
+  }
+  .r-link {
+    display: block;
+    text-decoration: none;
+    margin-top: 12px;
+  }
+  .r-link[hidden] { display: none; }
+  .r-view {
+    width: 100%;
+    font-family: var(--adm-font-family);
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 12px;
+    padding: 10px 12px;
+    min-height: 44px;
+    cursor: pointer;
+  }
+  .roulette .sheet-actions { margin-top: 12px; }
   .sheet {
     width: 100%;
     max-width: 480px;
@@ -396,7 +492,9 @@
 <body>
 
 <header class="top-bar">
-  <img class="logo" src="assets/logo.png" alt="Random Recipe Board logo">
+  <button class="logo-btn" id="logo-btn" aria-label="Potato roulette">
+    <img class="logo" src="assets/logo.png" alt="Random Recipe Board logo">
+  </button>
   <div class="head-actions">
     <button class="btn-lang" id="lang-btn" aria-label="Switch language">EN</button>
     <button class="btn-add" id="add-btn" aria-label="Add recipe"><img src="assets/plus.svg" alt=""></button>
@@ -422,6 +520,30 @@ Recipe Board</h1>
 <main id="board"></main>
 
 <button class="top-btn" id="top-btn" aria-label="Back to top"><img src="assets/chevron-up.svg" alt=""></button>
+
+<!-- 감자룰렛 (Potato Roulette) -->
+<div class="overlay center" id="roulette-overlay" hidden>
+  <div class="roulette" role="dialog" aria-labelledby="roulette-title">
+    <img class="roulette-potato" id="roulette-potato" src="assets/logo.png" alt="">
+    <h2 id="roulette-title">감자룰렛</h2>
+    <p class="roulette-sub" id="roulette-sub">오늘 뭐 먹지? 감자에게 맡겨보세요</p>
+
+    <div class="roulette-slot" id="r-slot">
+      <span class="card-badge" id="r-badge" hidden></span>
+      <div class="r-name" id="r-name">???</div>
+      <p class="r-note" id="r-note" hidden></p>
+    </div>
+
+    <a class="r-link" id="r-link" target="_blank" rel="noopener" hidden>
+      <button class="btn-save r-view" id="r-view">레시피 보기</button>
+    </a>
+
+    <div class="sheet-actions">
+      <button class="btn-cancel" id="roulette-close">닫기</button>
+      <button class="btn-save" id="roulette-spin">돌리기!</button>
+    </div>
+  </div>
+</div>
 
 <div class="overlay" id="overlay" hidden>
   <div class="sheet" role="dialog" aria-labelledby="sheet-title">
@@ -595,6 +717,12 @@ const I18N = {
     errRequired: "이름과 링크를 입력해 주세요.",
     errUrl: "링크는 http:// 또는 https:// 로 시작해야 해요.",
     errServer: "저장에 실패했어요. 잠시 후 다시 시도해 주세요.",
+    rouletteTitle: "감자룰렛",
+    rouletteSub: "오늘 뭐 먹지? 감자에게 맡겨보세요",
+    spin: "돌리기!",
+    spinAgain: "다시 돌리기",
+    close: "닫기",
+    viewRecipe: "레시피 보기",
     count: (q, n) => "\"" + q + "\" 검색 결과 " + n + "개",
   },
   en: {
@@ -613,6 +741,12 @@ const I18N = {
     errRequired: "Please enter a name and a link.",
     errUrl: "The link must start with http:// or https://.",
     errServer: "Failed to save. Please try again shortly.",
+    rouletteTitle: "Potato Roulette",
+    rouletteSub: "Can't decide? Let the potato choose",
+    spin: "Spin!",
+    spinAgain: "Spin again",
+    close: "Close",
+    viewRecipe: "View recipe",
     count: (q, n) => n + " result" + (n === 1 ? "" : "s") + " for \"" + q + "\"",
   },
 };
@@ -645,6 +779,13 @@ function applyLang() {
   document.getElementById("l-cat").textContent = t().lblCat;
   document.getElementById("f-cancel").textContent = t().cancel;
   document.getElementById("f-save").textContent = t().save;
+  document.getElementById("roulette-title").textContent = t().rouletteTitle;
+  document.getElementById("roulette-sub").textContent = t().rouletteSub;
+  document.getElementById("roulette-close").textContent = t().close;
+  document.getElementById("roulette-spin").textContent =
+    rouletteResult ? t().spinAgain : t().spin;
+  document.getElementById("r-view").textContent = t().viewRecipe;
+  if (rouletteResult) showRouletteResult(rouletteResult);
   if (typeof refreshCatOptions === "function") refreshCatOptions();
 }
 
@@ -824,6 +965,98 @@ tabPrev.addEventListener("click", () => tabsEl.scrollBy({ left: -160 }));
 tabNext.addEventListener("click", () => tabsEl.scrollBy({ left: 160 }));
 tabsEl.addEventListener("scroll", updateArrows);
 window.addEventListener("resize", updateArrows);
+
+/* --- 감자룰렛 (Potato Roulette) --- */
+let rouletteResult = null;
+let spinTimer = null;
+const rOverlay = document.getElementById("roulette-overlay");
+const rPotato = document.getElementById("roulette-potato");
+const rBadge = document.getElementById("r-badge");
+const rName_ = document.getElementById("r-name");
+const rNote_ = document.getElementById("r-note");
+const rLink = document.getElementById("r-link");
+const rSpinBtn = document.getElementById("roulette-spin");
+
+function openRoulette() {
+  rouletteResult = null;
+  rBadge.hidden = false;
+  rBadge.style.background = "#CCCCCC";
+  rBadge.textContent = "?";
+  rNote_.hidden = true;
+  rLink.hidden = true;
+  rName_.classList.remove("settled");
+  rName_.textContent = "???";
+  rSpinBtn.textContent = t().spin;
+  rSpinBtn.disabled = false;
+  rOverlay.hidden = false;
+}
+function closeRoulette() {
+  clearTimeout(spinTimer);
+  rPotato.classList.remove("spin");
+  rOverlay.hidden = true;
+}
+
+function showRouletteResult(r) {
+  const cat = catOf(r.category) || {};
+  rBadge.hidden = false;
+  rBadge.style.background = cat.badge || "#F5F5F5";
+  rBadge.textContent = cat.emoji || "🍽";
+  rName_.textContent = rName(r);
+  if (r.note) {
+    rNote_.hidden = false;
+    rNote_.textContent = rNote(r);
+  } else {
+    rNote_.hidden = true;
+  }
+  const link = r.links && r.links[0];
+  if (link) {
+    rLink.href = link.url;
+    rLink.hidden = false;
+  }
+}
+
+function spinRoulette() {
+  const pool = allRecipes();
+  if (!pool.length) return;
+
+  rouletteResult = null;
+  rBadge.hidden = false;
+  rNote_.hidden = true;
+  rLink.hidden = true;
+  rName_.classList.remove("settled");
+  rSpinBtn.disabled = true;
+  rPotato.classList.add("spin");
+
+  let ticks = 0;
+  const total = 18 + Math.floor(Math.random() * 8);
+  let delay = 60;
+
+  function tick() {
+    const r = pool[Math.floor(Math.random() * pool.length)];
+    const cat = catOf(r.category) || {};
+    rBadge.style.background = cat.badge || "#F5F5F5";
+    rBadge.textContent = cat.emoji || "🍽";
+    rName_.textContent = rName(r);
+    ticks++;
+    if (ticks < total) {
+      delay *= 1.12; // slow down like a real roulette
+      spinTimer = setTimeout(tick, delay);
+    } else {
+      rouletteResult = r;
+      rPotato.classList.remove("spin");
+      rName_.classList.add("settled");
+      showRouletteResult(r);
+      rSpinBtn.textContent = t().spinAgain;
+      rSpinBtn.disabled = false;
+    }
+  }
+  tick();
+}
+
+document.getElementById("logo-btn").addEventListener("click", openRoulette);
+document.getElementById("roulette-close").addEventListener("click", closeRoulette);
+rSpinBtn.addEventListener("click", spinRoulette);
+rOverlay.addEventListener("click", e => { if (e.target === rOverlay) closeRoulette(); });
 
 /* --- Back to top --- */
 const topBtn = document.getElementById("top-btn");
